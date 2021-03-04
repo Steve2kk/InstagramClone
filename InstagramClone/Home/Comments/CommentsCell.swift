@@ -37,6 +37,7 @@ class CommentsCell: UICollectionViewCell{
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
         addSubview(profileImageView)
         addSubview(textView)
         

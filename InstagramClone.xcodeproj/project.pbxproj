@@ -20,6 +20,8 @@
 		7E084AED25EA97E00092AE0A /* CommentsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E084AEC25EA97E00092AE0A /* CommentsController.swift */; };
 		7E084AF025EBA7270092AE0A /* CommentsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E084AEF25EBA7270092AE0A /* CommentsCell.swift */; };
 		7E084AF325EBAA950092AE0A /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E084AF225EBAA950092AE0A /* Comment.swift */; };
+		7E084AF625EE81080092AE0A /* CommentInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E084AF525EE81080092AE0A /* CommentInputAccessoryView.swift */; };
+		7E084AF925EE98CE0092AE0A /* CommentInputTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E084AF825EE98CE0092AE0A /* CommentInputTextView.swift */; };
 		7E888C6325B04F4C0080A756 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E888C6225B04F4C0080A756 /* AppDelegate.swift */; };
 		7E888C6525B04F4C0080A756 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E888C6425B04F4C0080A756 /* SceneDelegate.swift */; };
 		7E888C6725B04F4C0080A756 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E888C6625B04F4C0080A756 /* SignUpViewController.swift */; };
@@ -58,6 +60,8 @@
 		7E084AEC25EA97E00092AE0A /* CommentsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsController.swift; sourceTree = "<group>"; };
 		7E084AEF25EBA7270092AE0A /* CommentsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsCell.swift; sourceTree = "<group>"; };
 		7E084AF225EBAA950092AE0A /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		7E084AF525EE81080092AE0A /* CommentInputAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentInputAccessoryView.swift; sourceTree = "<group>"; };
+		7E084AF825EE98CE0092AE0A /* CommentInputTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentInputTextView.swift; sourceTree = "<group>"; };
 		7E888C5F25B04F4C0080A756 /* InstagramClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InstagramClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E888C6225B04F4C0080A756 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7E888C6425B04F4C0080A756 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -110,8 +114,7 @@
 			children = (
 				7E084AA625D5BE3A0092AE0A /* HomeController.swift */,
 				7E084AAA25D5C0130092AE0A /* HomePostCell.swift */,
-				7E084AEC25EA97E00092AE0A /* CommentsController.swift */,
-				7E084AEF25EBA7270092AE0A /* CommentsCell.swift */,
+				7E084AFB25EE9AE40092AE0A /* Comments */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -134,6 +137,17 @@
 				7E084AE925EA939B0092AE0A /* CustomAnimationDismisser.swift */,
 			);
 			path = Camera;
+			sourceTree = "<group>";
+		};
+		7E084AFB25EE9AE40092AE0A /* Comments */ = {
+			isa = PBXGroup;
+			children = (
+				7E084AEC25EA97E00092AE0A /* CommentsController.swift */,
+				7E084AEF25EBA7270092AE0A /* CommentsCell.swift */,
+				7E084AF525EE81080092AE0A /* CommentInputAccessoryView.swift */,
+				7E084AF825EE98CE0092AE0A /* CommentInputTextView.swift */,
+			);
+			path = Comments;
 			sourceTree = "<group>";
 		};
 		7E888C5625B04F4C0080A756 = {
@@ -367,6 +381,8 @@
 				7E084AB325E2A0E60092AE0A /* UserSearchController.swift in Sources */,
 				7E084AE725EA904C0092AE0A /* CustomAnimationPresentor.swift in Sources */,
 				7E084AA725D5BE3A0092AE0A /* HomeController.swift in Sources */,
+				7E084AF625EE81080092AE0A /* CommentInputAccessoryView.swift in Sources */,
+				7E084AF925EE98CE0092AE0A /* CommentInputTextView.swift in Sources */,
 				7E888C6325B04F4C0080A756 /* AppDelegate.swift in Sources */,
 				7EE84B6525CD4F8F001AF646 /* CustomImageView.swift in Sources */,
 				7EE84B2625B1A424001AF646 /* UserProfileController.swift in Sources */,
