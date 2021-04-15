@@ -95,6 +95,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate , 
     }
     
     var profileImage: String?
+    
     @objc func handleAddProfilePhoto() {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
@@ -152,8 +153,10 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate , 
                         "profile_image": urlString
                     ]
                     let values = [uid:dictionaryValues]
+                    
                     self.saveToDatabaseUserInfo(values: values)
-                    guard let mainTabBarController = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first?.rootViewController as? MainTabBarController else {return}
+                    
+                    guard let mainTabBarController = UIApplication.shared.windows[0].rootViewController as? MainTabBarController else {return}
                     
                     mainTabBarController.setupUIAndViewControllers()
                     
@@ -162,6 +165,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate , 
             }
         }
     }
+    
     fileprivate func saveToDatabaseUserInfo(values: [String: Any]) {
         Database.database().reference().child("users").updateChildValues(values) { (err, ref) in
             if let error = err {

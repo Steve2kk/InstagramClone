@@ -24,7 +24,13 @@ class UserProfileHeader: UICollectionViewCell {
             setupEditFollowButton()
         }
     }
-    
+    var numberOfPosts: Int? {
+        didSet {
+            let attributedText = NSMutableAttributedString(string: "\(String(describing: numberOfPosts ?? 0)) \n", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 16)])
+            attributedText.append(NSAttributedString(string: "posts", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16),NSAttributedString.Key.foregroundColor: UIColor.lightGray.cgColor]))
+            postsLabel.attributedText = attributedText
+        }
+    }
     let profileImageView: CustomImageView = {
         let iv = CustomImageView()
         iv.layer.cornerRadius = 80 / 2
@@ -64,9 +70,7 @@ class UserProfileHeader: UICollectionViewCell {
     
     let postsLabel:UILabel = {
        let label = UILabel()
-        let attributedText = NSMutableAttributedString(string: "11\n", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 16)])
-        attributedText.append(NSAttributedString(string: "posts", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16),NSAttributedString.Key.foregroundColor: UIColor.lightGray.cgColor]))
-        label.attributedText = attributedText
+        
         label.textAlignment = .center
         label.numberOfLines = 0
         return label
@@ -74,7 +78,7 @@ class UserProfileHeader: UICollectionViewCell {
     
     let followersLabel:UILabel = {
        let label = UILabel()
-        let attributedText = NSMutableAttributedString(string: "11\n", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 16)])
+        let attributedText = NSMutableAttributedString(string: "0\n", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 16)])
         attributedText.append(NSAttributedString(string: "followers", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16),NSAttributedString.Key.foregroundColor: UIColor.lightGray.cgColor]))
         label.attributedText = attributedText
         label.textAlignment = .center
@@ -84,7 +88,7 @@ class UserProfileHeader: UICollectionViewCell {
     
     let followingLabel:UILabel = {
        let label = UILabel()
-        let attributedText = NSMutableAttributedString(string: "11\n", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 16)])
+        let attributedText = NSMutableAttributedString(string: "0\n", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 16)])
         attributedText.append(NSAttributedString(string: "following", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16),NSAttributedString.Key.foregroundColor: UIColor.lightGray.cgColor]))
         label.attributedText = attributedText
         label.textAlignment = .center
@@ -106,12 +110,14 @@ class UserProfileHeader: UICollectionViewCell {
     
     
     fileprivate func setupEditFollowButton() {
-        guard let currenLoggedInUserId = Auth.auth().currentUser?.uid else {return}
+        guard let currentLoggedInUserId = Auth.auth().currentUser?.uid else {return}
         guard let userId = user?.uid else {return}
-        if currenLoggedInUserId == userId {
+        if currentLoggedInUserId == userId {
             //edit profile
+            editProfileFollowButton.isEnabled = false
+            
         }else {
-            Database.database().reference().child("following").child(currenLoggedInUserId).child(userId).observeSingleEvent(of: .value, with: { (snapshot) in
+            Database.database().reference().child("following").child(currentLoggedInUserId).child(userId).observeSingleEvent(of: .value, with: { (snapshot) in
                 if let isFollowing = snapshot.value as? Int,isFollowing == 1 {
                     self.editProfileFollowButton.setTitle("UnFollow", for: .normal)
                 }else {

@@ -44,14 +44,14 @@ class UserProfileController: UICollectionViewController,UICollectionViewDelegate
             if user.uid == Auth.auth().currentUser?.uid {
                 self.navigationItem.title = self.user?.username
             }
-            self.collectionView.reloadData()
             self.paginationPosts()
         }
     }
      
     var isFinishedPaging = false
-    
+    var dispatchGroup = DispatchGroup()
     fileprivate func paginationPosts() {
+       
         guard let uid = self.user?.uid else {return}
         
         let ref = Database.database().reference().child("posts").child(uid)
@@ -61,7 +61,6 @@ class UserProfileController: UICollectionViewController,UICollectionViewDelegate
             let value = posts.last?.creationDate.timeIntervalSince1970
             query = query.queryEnding(atValue: value)
         }
-        
         query.queryLimited(toLast: 4).observeSingleEvent(of: .value,with: { (snapshot) in
             guard let user = self.user else {return}
             guard var allObjects = snapshot.children.allObjects as? [DataSnapshot] else {return}
@@ -132,6 +131,7 @@ class UserProfileController: UICollectionViewController,UICollectionViewDelegate
                 try  Auth.auth().signOut()
                 let loginController = LoginViewController()
                 let navController = UINavigationController(rootViewController: loginController)
+                navController.modalPresentationStyle = .fullScreen
                 self.present(navController, animated: true, completion: nil)
             }catch let signOutErr {
                 print("Failed to sign out: ",signOutErr)
@@ -145,6 +145,7 @@ class UserProfileController: UICollectionViewController,UICollectionViewDelegate
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "headerID", for: indexPath) as! UserProfileHeader
         header.user = user
+        header.numberOfPosts = posts.count
         header.delegate = self
         return header
     }

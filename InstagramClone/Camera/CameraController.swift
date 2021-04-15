@@ -25,7 +25,6 @@ class CameraController: UIViewController, AVCapturePhotoCaptureDelegate, UIViewC
     }()
     
     let captureOutput = AVCapturePhotoOutput()
-   
     let customAnimationPresentor = CustomAnimationPresentor()
     let customAnomationDismisser = CustomAnimationDismisser()
     

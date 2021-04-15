@@ -16,6 +16,7 @@ class MainTabBarController: UITabBarController,UITabBarControllerDelegate {
             DispatchQueue.main.async {
                 let loginController = LoginViewController()
                 let navController = UINavigationController(rootViewController: loginController)
+                navController.modalPresentationStyle = .fullScreen
                 self.present(navController, animated: true, completion: nil)
             }
             return
@@ -40,9 +41,9 @@ class MainTabBarController: UITabBarController,UITabBarControllerDelegate {
         let searchNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "search_unselected"), selectedImage: #imageLiteral(resourceName: "search_selected"),rootViewController: UserSearchController(collectionViewLayout: UICollectionViewFlowLayout()))
         let profileNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "profile_unselected"), selectedImage: #imageLiteral(resourceName: "profile_selected"),rootViewController: UserProfileController(collectionViewLayout: UICollectionViewFlowLayout()))
         let addPhotoNavContoller = templateNavController(unselectedImage: #imageLiteral(resourceName: "plus_unselected"), selectedImage: #imageLiteral(resourceName: "plus_unselected"))
-        let likesNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "like_unselected"), selectedImage: #imageLiteral(resourceName: "like_selected"))
+       
         tabBar.tintColor = .black
-        viewControllers = [homeNavController,searchNavController,addPhotoNavContoller,likesNavController,profileNavController]
+        viewControllers = [homeNavController,searchNavController,addPhotoNavContoller,profileNavController]
 
         guard let items = tabBar.items else {return}
         for item in items {

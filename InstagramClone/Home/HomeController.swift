@@ -15,12 +15,15 @@ class HomeController: UICollectionViewController,UICollectionViewDelegateFlowLay
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(handleUpdateFeed), name: SharePhotoController.updateFeedNotification, object: nil)
         collectionView.backgroundColor = .white
         collectionView.register(HomePostCell.self, forCellWithReuseIdentifier: cellId)
+        collectionView.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerView")
+        
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
         collectionView.refreshControl = refreshControl
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleUpdateFeed), name: SharePhotoController.updateFeedNotification, object: nil)
         setupNavigationItems()
         fetchAllPosts()
     }
@@ -50,8 +53,8 @@ class HomeController: UICollectionViewController,UICollectionViewDelegateFlowLay
     fileprivate func fetchPostsWithUser(user: User) {
         let ref = Database.database().reference().child("posts").child(user.uid)
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
-            guard let dictionaries = snapshot.value as? [String: Any] else { return }
             self.collectionView.refreshControl?.endRefreshing()
+            guard let dictionaries = snapshot.value as? [String: Any] else { return }
             dictionaries.forEach({ (key, value) in
                 guard let dictionary = value as? [String: Any] else { return }
                 
@@ -114,7 +117,7 @@ class HomeController: UICollectionViewController,UICollectionViewDelegateFlowLay
     }
     
     @objc func handleRefresh() {
-        posts.removeAll()
+        self.posts.removeAll()
         fetchAllPosts()
     }
     
@@ -129,19 +132,29 @@ class HomeController: UICollectionViewController,UICollectionViewDelegateFlowLay
    //MARK:- setupCollectionView
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! HomePostCell
-        cell.post = posts[indexPath.item]
+        if posts.count > 0 {
+            cell.post = posts[indexPath.item]
+        }
         cell.delegate = self
         return cell
     }
     
-   
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        var height:CGFloat = 36 + 8 + 8
-        height += view.frame.width
-        height += 50
-        height += 60
-        return CGSize(width: view.frame.width, height: height)
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerView", for: indexPath) as! HeaderView
+            headerView.frame.size.height = 100
+            return headerView
     }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return posts.isEmpty ? CGSize(width: view.frame.width, height: view.frame.height) : CGSize(width: 0, height: 0)
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+            var height:CGFloat = 36 + 8 + 8
+            height += view.frame.width
+            height += 50
+            height += 60
+            return CGSize(width: view.frame.width, height: height)
+    }
+    
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return posts.count
